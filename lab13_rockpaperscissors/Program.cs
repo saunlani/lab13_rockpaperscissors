@@ -10,7 +10,6 @@ namespace lab13_rockpaperscissors
      * input validation throughout program
      * keeps track of wins and losses, displays the scores at the end of session
      * 
-     * todo: ROSHAMBO CLASS, allows player to play AS "player1" or "player2"
      */
 
     public class Program
@@ -18,15 +17,18 @@ namespace lab13_rockpaperscissors
         
         public static void Main(string[] args)
         {
-            //instantiate empty player class and player1 and player2
-            Player p = new Player();
-            Player player1 = new Player("Rocky", Roshambo.rock);
-            Player player2 = new Player("Toenail", p.generateRoshambo());
-
-            //welcomes user and prompts for a name
+			//welcomes user and prompts for a name
             Console.WriteLine("Welcome to Rock Paper Scissors!\n");
             Console.Write("Enter your name:\n");
             string usernamechoice = Console.ReadLine();
+
+			//instantiate empty player class, a player1 and player2
+			UserPlayer p = new UserPlayer();
+			UserPlayer user  = new UserPlayer(usernamechoice,p.generateRoshambo());
+			RockPlayer player1 = new RockPlayer("Rocky", Roshambo.rock);
+			RandoPlayer player2 = new RandoPlayer("Toenail", p.generateRoshambo());
+
+
 
 
             // selecting opponent
@@ -42,10 +44,13 @@ namespace lab13_rockpaperscissors
                     continue;
                 }
 
+                //declares counter variables for scores
                 int userwins = 0;
                 int userlosses = 0;
                 int draws = 0;
-                string opponentName = "empty";
+
+                //declares selected opponent name and rock paper scissor choice
+                string opponentName;
                 string opponentChoice;
 
                 // selecting rock, paper or scissors
@@ -60,32 +65,32 @@ namespace lab13_rockpaperscissors
                     {
                         continue; 
                     }
-                        
-
-                    else if (oppNameChoice == player1.Name.ToLower())
+            
+                   
+					// TENTATIVE TODO: maybe get rid of one of these else if's
+                    // by using the opp name and oppchoice variables.
+					else if (oppNameChoice == player1.Name.ToLower())
                     {
                         opponentName = player1.Name;
                         opponentChoice = player1.Choice.ToString();
-                        Roshambo rps_choice;
-                        Enum.TryParse(rpsPick, out rps_choice);
-                        Console.WriteLine($"{usernamechoice}: {rpsPick}");
-                        Console.WriteLine($"{opponentName}: {opponentChoice}\n");
-
-
+                  
                     }
                     else if (oppNameChoice == player2.Name.ToLower())
                     {
                         opponentName = player2.Name;
                         opponentChoice = player2.generateRoshambo().ToString();
-                        Roshambo rps_choice;
-                        Enum.TryParse(rpsPick, out rps_choice);
-                        Console.WriteLine($"{usernamechoice}: {rpsPick}");
-                        Console.WriteLine($"{opponentName}: {opponentChoice}\n");
+
                     }
                     else
                     {
                         continue;
                     }
+
+					Roshambo rps_choice;
+                    Enum.TryParse(rpsPick, out rps_choice);
+                    Console.WriteLine($"{usernamechoice}: {rpsPick}");
+                    Console.WriteLine($"{opponentName}: {opponentChoice}\n");
+
                     if (rpsPick == opponentChoice)
                     {
                         Console.WriteLine("Draw!");
@@ -105,7 +110,7 @@ namespace lab13_rockpaperscissors
                         Console.WriteLine($"{opponentName} wins!");
                         userlosses++;
                     }
-
+                    
                     bool askToplayAgain = true;
                     while (askToplayAgain)
                     {
@@ -121,7 +126,7 @@ namespace lab13_rockpaperscissors
                         }
                         else if (userPlayAgainAns == "n")
                         {
-                            Console.WriteLine($"{usernamechoice}'s wins: {userwins}");
+                            Console.WriteLine($"\n{usernamechoice}'s wins: {userwins}");
                             Console.WriteLine($"{usernamechoice}'s losses: {userlosses}");
                             Console.WriteLine($"Draws: {draws}");
                             Console.WriteLine("Goodbye!");

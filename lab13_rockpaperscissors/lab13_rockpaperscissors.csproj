@@ -9,5 +9,6 @@
     <Compile Remove="RandyRanderson.cs" />
     <Compile Remove="RockyBalboa.cs" />
     <Compile Remove="RockyBalboa.cs" />
+    <Compile Remove="AskToPlayAgain.cs" />
   </ItemGroup>
 </Project>
