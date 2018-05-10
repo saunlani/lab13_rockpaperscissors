@@ -23,14 +23,11 @@ namespace lab13_rockpaperscissors
             string usernamechoice = Console.ReadLine();
 
 			//instantiate empty player class, a player1 and player2
-			UserPlayer p = new UserPlayer();
+			RandoPlayer p = new RandoPlayer("generator",Roshambo.rock);
 			UserPlayer user  = new UserPlayer(usernamechoice,p.generateRoshambo());
 			RockPlayer player1 = new RockPlayer("Rocky", Roshambo.rock);
 			RandoPlayer player2 = new RandoPlayer("Toenail", p.generateRoshambo());
-
-
-
-
+         
             // selecting opponent
             bool selectingOpponent = true;
             while (selectingOpponent)
@@ -61,14 +58,12 @@ namespace lab13_rockpaperscissors
                     string rpsPick = Console.ReadLine().ToLower();
                     Console.WriteLine("");
 
+                    //validates input for rock paper or scissors
                     if (Validator.ValidateRPS(rpsPick) == false)
                     {
                         continue; 
                     }
-            
-                   
-					// TENTATIVE TODO: maybe get rid of one of these else if's
-                    // by using the opp name and oppchoice variables.
+
 					else if (oppNameChoice == player1.Name.ToLower())
                     {
                         opponentName = player1.Name;
@@ -96,6 +91,8 @@ namespace lab13_rockpaperscissors
                         Console.WriteLine("Draw!");
                         draws++;
                     }
+
+                    // if the user wins
                     else if (rpsPick == "paper" && opponentChoice == "rock" ||
                              rpsPick == "rock" && opponentChoice == "scissors" ||
                              rpsPick == "scissors" && opponentChoice == "paper")
@@ -103,6 +100,8 @@ namespace lab13_rockpaperscissors
                         Console.WriteLine($"{usernamechoice} wins!");
                         userwins++;
                     }
+
+                    // if the opponent wins
                     else if (opponentChoice == "paper" && rpsPick== "rock" ||
                              opponentChoice == "rock" && rpsPick == "scissors" ||
                              opponentChoice == "scissors" && rpsPick == "paper")
@@ -111,6 +110,7 @@ namespace lab13_rockpaperscissors
                         userlosses++;
                     }
                     
+                    // checks to see if the player wants to play again
                     bool askToplayAgain = true;
                     while (askToplayAgain)
                     {
@@ -126,6 +126,8 @@ namespace lab13_rockpaperscissors
                         }
                         else if (userPlayAgainAns == "n")
                         {
+
+                            //displays scores after play decides to stop playing.
                             Console.WriteLine($"\n{usernamechoice}'s wins: {userwins}");
                             Console.WriteLine($"{usernamechoice}'s losses: {userlosses}");
                             Console.WriteLine($"Draws: {draws}");
