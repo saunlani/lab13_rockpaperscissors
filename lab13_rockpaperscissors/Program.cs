@@ -17,25 +17,42 @@ namespace lab13_rockpaperscissors
         
         public static void Main(string[] args)
         {
-			//welcomes user and prompts for a name
-            Console.WriteLine("Welcome to Rock Paper Scissors!\n");
-            Console.Write("Enter your name:\n");
-            string usernamechoice = Console.ReadLine();
+			string usernamechoice = "";
+			Console.WriteLine("Welcome to Rock Paper Scissors!\n");
+			bool gettingUsername = true;
+			while (gettingUsername)
+			{
+				Console.Write("Enter your name:\n");
+				usernamechoice = Console.ReadLine();
 
-			//instantiate empty player class, a player1 and player2
+				if (Validator.ValidUserName(usernamechoice) == false)
+				{
+					continue;
+				}
+				else
+				{
+					gettingUsername = false;
+				}
+
+			}
+			//welcomes user and prompts for a name
+           
+
+
+			//instantiate empty player class, a user, r;ock player and a random player
 			RandoPlayer p = new RandoPlayer("generator",Roshambo.rock);
 			UserPlayer user  = new UserPlayer(usernamechoice,p.generateRoshambo());
-			RockPlayer player1 = new RockPlayer("Rocky", Roshambo.rock);
-			RandoPlayer player2 = new RandoPlayer("Toenail", p.generateRoshambo());
+			RockPlayer Rocky = new RockPlayer("Rocky", Roshambo.rock);
+			RandoPlayer RandomPlayer = new RandoPlayer("Rando", p.generateRoshambo());
          
             // selecting opponent
             bool selectingOpponent = true;
             while (selectingOpponent)
             {
-                Console.WriteLine($"\nWould you like to play against {player1.Name} or {player2.Name} ?");
+                Console.WriteLine($"\nWould you like to play against {Rocky.Name} or {RandomPlayer.Name} ?");
                 string oppNameChoice = Console.ReadLine().ToLower();
 
-                if (oppNameChoice != player1.Name.ToLower() && oppNameChoice != player2.Name.ToLower())
+                if (oppNameChoice != Rocky.Name.ToLower() && oppNameChoice != RandomPlayer.Name.ToLower())
                 {
                     Console.WriteLine($"{oppNameChoice} does not exist.");
                     continue;
@@ -49,62 +66,69 @@ namespace lab13_rockpaperscissors
                 //declares selected opponent name and rock paper scissor choice
                 string opponentName;
                 string opponentChoice;
-
+                
                 // selecting rock, paper or scissors
                 bool selectingRPS = true;
                 while (selectingRPS)
                 {
                     Console.WriteLine("\nRock, paper, or scissors?");
-                    string rpsPick = Console.ReadLine().ToLower();
-                    Console.WriteLine("");
-
-                    //validates input for rock paper or scissors
-                    if (Validator.ValidateRPS(rpsPick) == false)
-                    {
-                        continue; 
-                    }
-
-					else if (oppNameChoice == player1.Name.ToLower())
-                    {
-                        opponentName = player1.Name;
-                        opponentChoice = player1.Choice.ToString();
-                  
-                    }
-                    else if (oppNameChoice == player2.Name.ToLower())
-                    {
-                        opponentName = player2.Name;
-                        opponentChoice = player2.generateRoshambo().ToString();
-
-                    }
-                    else
+					string userresponse = Console.ReadLine().ToLower();
+                    
+                    // validates if a valid RPS choice
+					if (Validator.ValidateRPS(userresponse) == false)
                     {
                         continue;
                     }
 
-					Roshambo rps_choice;
-                    Enum.TryParse(rpsPick, out rps_choice);
-                    Console.WriteLine($"{usernamechoice}: {rpsPick}");
+                                   
+					else if (oppNameChoice == Rocky.Name.ToLower())
+					{
+						opponentName = Rocky.Name;
+						opponentChoice = Rocky.generateRoshambo().ToString();
+
+					}
+					else if (oppNameChoice == RandomPlayer.Name.ToLower())
+					{
+						opponentName = RandomPlayer.Name;
+						opponentChoice = RandomPlayer.generateRoshambo().ToString();
+
+					}
+					else
+					{
+						continue;
+					}
+
+
+                    // parses string user input to a roshambo value
+                    Enum.TryParse(userresponse, out Roshambo convertedChoice);
+
+                    // user's choice now lives in UserPlayer Choice
+                    user.Choice = convertedChoice;
+                    
+                    Console.WriteLine("");
+                    
+					Console.WriteLine($"{usernamechoice}: {user.Choice.ToString()}");
                     Console.WriteLine($"{opponentName}: {opponentChoice}\n");
 
-                    if (rpsPick == opponentChoice)
+					if (user.Choice.ToString() == opponentChoice)
                     {
                         Console.WriteLine("Draw!");
                         draws++;
                     }
 
                     // if the user wins
-                    else if (rpsPick == "paper" && opponentChoice == "rock" ||
-                             rpsPick == "rock" && opponentChoice == "scissors" ||
-                             rpsPick == "scissors" && opponentChoice == "paper")
+					else if (user.Choice.ToString() == "paper" && opponentChoice == "rock" ||
+					         user.Choice.ToString() == "rock" && opponentChoice == "scissors" ||
+					         user.Choice.ToString() == "scissors" && opponentChoice == "paper")
                     {
                         Console.WriteLine($"{usernamechoice} wins!");
                         userwins++;
                     }
 
                     // if the opponent wins
-                    else if (opponentChoice == "paper" && rpsPick== "rock" ||
-                             opponentChoice == "rock" && rpsPick == "scissors" ||
-                             opponentChoice == "scissors" && rpsPick == "paper")
+					else if (opponentChoice == "paper" && user.Choice.ToString()== "rock" ||
+					         opponentChoice == "rock" && user.Choice.ToString() == "scissors" ||
+					         opponentChoice == "scissors" && user.Choice.ToString() == "paper")
                     {
                         Console.WriteLine($"{opponentName} wins!");
                         userlosses++;

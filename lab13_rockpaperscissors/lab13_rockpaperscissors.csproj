@@ -10,5 +10,6 @@
     <Compile Remove="RockyBalboa.cs" />
     <Compile Remove="RockyBalboa.cs" />
     <Compile Remove="AskToPlayAgain.cs" />
+    <Compile Remove="RockPlayer : Members.cs" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,19 @@ namespace lab13_rockpaperscissors
 {
     public class Validator
     {
+		public static bool ValidUserName(string input)
+		{
+			if (string.IsNullOrWhiteSpace(input))
+			{
+				Console.WriteLine("Invalid input");
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+
+		}
         public static bool ValidateRPS(string input)
         {
             if (input != "rock" &&
